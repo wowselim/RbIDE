@@ -59,9 +59,13 @@ public class Gui extends JFrame {
     menuBar = new JPanel();
     menuBar.setPreferredSize(new Dimension(10, 30));
     btnNew = new JButton("New");
+    btnNew.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/file-o.png")));
     btnOpen = new JButton("Open");
+    btnOpen.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/folder-open-o.png")));
     btnSave = new JButton("Save");
+    btnSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/floppy-o.png")));
     btnRun = new JButton("Run");
+    btnRun.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("res/play.png")));
     menuBar.setLayout(new GridLayout(0,4));
     menuBar.add(btnNew);
     menuBar.add(btnOpen);
@@ -82,7 +86,6 @@ public class Gui extends JFrame {
     
     textArea = new RSyntaxTextArea();
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_RUBY);
-    textArea.setCodeFoldingEnabled(true);
     textPane = new RTextScrollPane(textArea);
     textSplitPane.add(textPane, JSplitPane.TOP);
     
