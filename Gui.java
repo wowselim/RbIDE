@@ -19,7 +19,7 @@ public class Gui extends JFrame {
   
   private JSplitPane mainSplitPane;
   
-  private JTree fileTree;
+  private FileTree fileTree;
   private JScrollPane fileTreePane;
   
   private JSplitPane textSplitPane;
@@ -152,8 +152,7 @@ public class Gui extends JFrame {
     fileTree.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
-          int count = fileTree.getSelectionPath().toString().split(", ").length;
-          fileName = fileTree.getSelectionPath().toString().split(", ")[count - 1].replace("]", "");
+          fileName = fileTree.f.getPath();
           open();
         }
       }

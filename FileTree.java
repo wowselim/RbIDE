@@ -24,15 +24,17 @@ public class FileTree extends JTree implements Runnable {
   private FileSystemModel fs;
   private String path;
   
+  public static File f;
+  
   public FileTree(String dir) {
     fs = new FileSystemModel(new File(dir));
     this.path = dir;
     setModel(fs);
-    //addTreeSelectionListener(new TreeSelectionListener() {
-    //  public void valueChanged(TreeSelectionEvent evt) {
-    //    File f = (File) getLastSelectedPathComponent();
-    //  }
-    //});
+    addTreeSelectionListener(new TreeSelectionListener() {
+      public void valueChanged(TreeSelectionEvent evt) {
+        f = (File) getLastSelectedPathComponent();
+      }
+    });
     new Thread(this).start();
   }
   
