@@ -1,2 +1,1 @@
-puts 'selim'
-puts 'wasi'
+java.lang.System.exit 0

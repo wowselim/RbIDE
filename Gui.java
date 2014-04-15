@@ -25,8 +25,11 @@ public class Gui extends JFrame {
   private JSplitPane textSplitPane;
   private RSyntaxTextArea textArea;
   private RTextScrollPane textPane;
-  private JTextArea infoTextArea;
+  private JTextArea console;
   private JScrollPane infoTextPane;
+  
+  private JPanel statusBar;
+  private JLabel statusText;
   
   private ScriptingContainer container;
   
@@ -76,9 +79,10 @@ public class Gui extends JFrame {
     mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
     mainSplitPane.setResizeWeight(0.1);
     
-    fileTree = new JTree();
+    fileTree = new FileTree(".");
     fileTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     fileTreePane = new JScrollPane(fileTree);
+    fileTreePane.setPreferredSize(new Dimension(100, 0));
     mainSplitPane.add(fileTreePane, JSplitPane.LEFT);
     
     textSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
@@ -89,14 +93,22 @@ public class Gui extends JFrame {
     textPane = new RTextScrollPane(textArea);
     textSplitPane.add(textPane, JSplitPane.TOP);
     
-    infoTextArea = new JTextArea();
-    infoTextArea.setEditable(false);
-    infoTextPane = new JScrollPane(infoTextArea);
+    console = new JTextArea();
+    console.setEditable(false);
+    infoTextPane = new JScrollPane(console);
     textSplitPane.add(infoTextPane, JSplitPane.BOTTOM);
     
     mainSplitPane.add(textSplitPane, JSplitPane.RIGHT);
     
     add(mainSplitPane, BorderLayout.CENTER);
+    
+    statusBar = new JPanel();
+    statusBar.setBorder(BorderFactory.createEtchedBorder());
+    statusBar.setLayout(new GridLayout(0, 2));
+    statusText = new JLabel("Warning: Calling System.exit will cause the IDE to exit.");
+    statusBar.add(statusText);
+    
+    add(statusBar, BorderLayout.SOUTH);
     
     initListeners();
   }   
@@ -110,8 +122,7 @@ public class Gui extends JFrame {
     
     btnOpen.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
-        textArea.setText(FileInput.readFile(fileName));
-        setTitle(title + " - " + fileName);
+        open();
       }
     });
     
@@ -124,16 +135,34 @@ public class Gui extends JFrame {
     btnRun.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
         try {
-          infoTextArea.setText("");
+          FileOutput.writeFile(textArea.getText(), fileName);
+          console.setText("");
           
           container = new ScriptingContainer();
-          container.setOutput(new PrintStream(new RubyOutputStream(infoTextArea)));
+          container.setOutput(new PrintStream(new RubyOutputStream(console)));
+          container.setRunRubyInProcess(true);
           container.runScriptlet(textArea.getText());
+          container.terminate();
         } catch(Exception e) {
-          infoTextArea.setText("");
+          console.setText("");
         }
       }
     });
+    
+    fileTree.addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+          int count = fileTree.getSelectionPath().toString().split(", ").length;
+          fileName = fileTree.getSelectionPath().toString().split(", ")[count - 1].replace("]", "");
+          open();
+        }
+      }
+    });
+  }
+  
+  private void open() {
+    textArea.setText(FileInput.readFile(fileName));
+    setTitle(title + " - " + fileName);
   }
   
   public static void main(String[] args) {
