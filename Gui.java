@@ -117,6 +117,7 @@ public class Gui extends JFrame {
     btnNew.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
         textArea.setText("");
+        fileName = "";
       }
     });
     

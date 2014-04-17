@@ -1,17 +1,12 @@
-import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
-public class FileInput {
-  public static File currentFile;
-  
+public class FileInput {  
   public static String readFile(String fileName) {
-    StringBuilder file = new StringBuilder();
-    try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-      String currentLine;
-      while((currentLine = br.readLine()) != null) { 
-        file.append(currentLine + '\n');
-      }
-      file.delete(file.toString().length() - 1, file.toString().length());
-      return file.toString();
+    Path filePath = FileSystems.getDefault().getPath(fileName);
+    try {
+      return new String(Files.readAllBytes(filePath));
     } catch(Exception e) {
       System.out.println("Error reading file.");
     } 

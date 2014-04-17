@@ -1,13 +1,14 @@
-import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
-public class FileOutput {
-  public static File currentFile;
-  
+public class FileOutput {  
   public static void writeFile(String content, String fileName) {
-    try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName)) ) {
-      bw.write(content);
+    Path filePath = FileSystems.getDefault().getPath(fileName);
+    try {
+      Files.write(filePath, content.getBytes());
     } catch(Exception e) {
       System.out.println("Error writing file.");
-    }
+    }     
   }
 }
