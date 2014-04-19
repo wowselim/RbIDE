@@ -114,39 +114,31 @@ public class Gui extends JFrame {
   }   
   
   private void initListeners() {
-    btnNew.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        textArea.setText("");
-        fileName = "";
-      }
+    btnNew.addActionListener(al -> {
+      textArea.setText("");
+      fileName = "";
     });
     
-    btnOpen.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        open();
-      }
+    btnOpen.addActionListener(al -> {
+      open();
     });
     
-    btnSave.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    btnSave.addActionListener(al -> {
+      FileOutput.writeFile(textArea.getText(), fileName);
+    });
+    
+    btnRun.addActionListener(al -> {
+      try {
         FileOutput.writeFile(textArea.getText(), fileName);
-      }
-    });
-    
-    btnRun.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        try {
-          FileOutput.writeFile(textArea.getText(), fileName);
-          console.setText("");
-          
-          container = new ScriptingContainer();
-          container.setOutput(new PrintStream(new RubyOutputStream(console)));
-          container.setRunRubyInProcess(true);
-          container.runScriptlet(textArea.getText());
-          container.terminate();
-        } catch(Exception e) {
-          console.setText("");
-        }
+        console.setText("");
+        
+        container = new ScriptingContainer();
+        container.setOutput(new PrintStream(new RubyOutputStream(console)));
+        container.setRunRubyInProcess(true);
+        container.runScriptlet(textArea.getText());
+        container.terminate();
+      } catch(Exception e) {
+        console.setText("");
       }
     });
     
