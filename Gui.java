@@ -163,10 +163,9 @@ public class Gui extends JFrame {
     } catch(Exception e) {
       System.out.println("Error setting look and feel, using default one.");
     }
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        new Gui("RbScripter").setVisible(true);
-      }
+    
+    SwingUtilities.invokeLater(() -> {
+      new Gui("RbScripter").setVisible(true);
     });
   }
 }
