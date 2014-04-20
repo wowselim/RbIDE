@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
+import javafx.embed.swing.JFXPanel;
+
 import org.fife.ui.rtextarea.*;
 import org.fife.ui.rsyntaxtextarea.*;
 
@@ -19,7 +21,8 @@ public class Gui extends JFrame {
   
   private JSplitPane mainSplitPane;
   
-  private FileTree fileTree;
+  //private FileTree fileTree;
+  private JFXFileTree fileTree;
   private JScrollPane fileTreePane;
   
   private JSplitPane textSplitPane;
@@ -79,10 +82,11 @@ public class Gui extends JFrame {
     mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
     mainSplitPane.setResizeWeight(0.1);
     
-    fileTree = new FileTree(".");
-    fileTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    //fileTree = new FileTree(".");
+    //fileTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    fileTree = new JFXFileTree();
     fileTreePane = new JScrollPane(fileTree);
-    fileTreePane.setPreferredSize(new Dimension(100, 0));
+    fileTreePane.setPreferredSize(new Dimension(130, 0));
     mainSplitPane.add(fileTreePane, JSplitPane.LEFT);
     
     textSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
@@ -142,6 +146,7 @@ public class Gui extends JFrame {
       }
     });
     
+    /*
     fileTree.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
@@ -150,6 +155,7 @@ public class Gui extends JFrame {
         }
       }
     });
+    */
   }
   
   private void open() {
