@@ -1,7 +1,7 @@
 RbScripter
 ==========
 
-A Ruby Playground-IDE written in Swing
+A (J)Ruby IDE written in Swing
 
 ![Screenshot](http://i.imgur.com/IImESgu.png "Screenshot of the initial commit")
 
