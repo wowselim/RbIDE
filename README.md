@@ -1,4 +1,4 @@
-RbScripter
+RbIDE
 ==========
 
 A (J)Ruby IDE written in Swing
